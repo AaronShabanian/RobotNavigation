@@ -9,13 +9,9 @@ Readfile::Readfile(){
 Readfile::~Readfile(){
 
 }
-void Readfile::findFile(){
-  string filename;
+void Readfile::findFile(string filename){
   int counter=0;
   int pacer=0;
-  int size=0;
-  cout<<"Enter the name of the file you would like to read from"<<endl;
-  cin>>filename;
   string line;
   ifstream readfile (filename);
   if(readfile.is_open()){
@@ -24,7 +20,7 @@ void Readfile::findFile(){
        stringstream reader(line);
        reader >> size;
       arr = new char*[size];
-      for(int i=0; i<5; i++){
+      for(int i=0; i<size; i++){
         arr[i] = new char[size];
       }
      }
@@ -35,6 +31,20 @@ void Readfile::findFile(){
       }
       counter++;
       pacer=counter-1;
+    }
+  }
+}
+void Readfile::findInitialGoal(){
+  for(int i=0; i<size; i++){
+    for(int j=0; j<size; j++){
+      if(arr[j][i]=='g'){
+        goalX=i;
+        goalY=j;
+      }
+      else if (arr[j][i]=='i') {
+        initialX=i;
+        initialY=j;
+      }
     }
   }
 }
