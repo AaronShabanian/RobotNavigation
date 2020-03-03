@@ -13,6 +13,8 @@ void Readfile::findFile(string filename){
   int counter=0;
   int pacer=0;
   string line;
+  //opening file that was already pre checked to exist in the AlgoMovement class.
+  // Also copies file over to a new array.
   ifstream readfile (filename);
   if(readfile.is_open()){
    while(getline(readfile, line)){
@@ -34,6 +36,7 @@ void Readfile::findFile(string filename){
     }
   }
 }
+//getting goal and inital coordinates
 void Readfile::findInitialGoal(){
   for(int i=0; i<size; i++){
     for(int j=0; j<size; j++){
