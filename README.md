@@ -30,7 +30,11 @@
 
 3.) Description of any known compile/runtime errors, or bugs.
 
-  a. My program cannot handle huge grids during the A* algorithm as my vectors storing all possible moves run out of space
+
+  a. In rare edge cases the path printed by the A* algorithms will print some coordinates as an O when they are not a part of the final path. However stepcount is still correct
+
+  b. Hueristic algorithms can take a long time to execute in large grids.
+
 
 4.) References used to complete the assignment
   a. Referenced Powerpoints that were used in lecture

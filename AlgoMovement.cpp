@@ -32,6 +32,7 @@ void AlgoMovement::movement(int method){
     realfile=holdname();
   }
   //finds file and copies it
+
   readfile.findFile(realfile);
   readfile.findInitialGoal();
   //Eshow is an array that has everywhere the algorithm goes even if it retraces
@@ -112,7 +113,7 @@ void AlgoMovement::movement(int method){
   }
 
 
-  cost[0]=distance;
+  //cost[0]=distance;
   coster.push_back(distance);
   if((x+1)<readfile.size&&readfile.arr[y][x+1]!='+'&&Eshow[y][x+1]!='O'){
     if (method ==1){
@@ -132,7 +133,7 @@ void AlgoMovement::movement(int method){
     distance =10000;
   }
 
-  cost[1]=distance;
+  //cost[1]=distance;
   coster.push_back(distance);
   if((y-1)>-1&&readfile.arr[y-1][x]!='+'&&Eshow[y-1][x]!='O'){
     if (method == 1 ){
@@ -152,7 +153,7 @@ void AlgoMovement::movement(int method){
     distance =10000;
   }
 
-  cost[2]=distance;
+//  cost[2]=distance;
   coster.push_back(distance);
   if((y+1)<readfile.size&&readfile.arr[y+1][x]!='+'&&Eshow[y+1][x]!='O'){
 
@@ -172,11 +173,10 @@ void AlgoMovement::movement(int method){
   else{
     distance =10000;
   }
-
-  cost[3]=distance;
+  //cost[3]=distance;
   coster.push_back(distance);
   smallest=0;
-  cheapest=100;
+  cheapest=1000;
   //finds which path has the smallest distance based on algorithm and goes to that box on the grid, it is repeated until the goal is reached
   for(int i=0; i<(4*counter); i++){
      if(coster[i]<cheapest){
@@ -213,6 +213,9 @@ void AlgoMovement::movement(int method){
     stepcount++;
     coster[smallest]=10000;
   }
+  // if(method==3){
+  //   cout<<getEuclideanDistance((double)x,(double)readfile.goalX,(double)y,(double)readfile.goalY)<<endl;
+  // }
   if(getEuclideanDistance((double)x,(double)readfile.goalX,(double)y,(double)readfile.goalY)==0){
     //used to delete paths that were checked but were not end up taken
     x=readfile.goalX;
@@ -227,6 +230,7 @@ void AlgoMovement::movement(int method){
       }
     }
     int less=0;
+
     // This loop goes backwards through the maze and follows the final path that was decided and removes anything places
     //that were originally explored but were not in the final path
     while (true){
@@ -243,7 +247,7 @@ void AlgoMovement::movement(int method){
       }
 
       cost[0]=distance;
-      if(Eshow[y][x+1]=='O'&&(x+1)<readfile.size){
+      if(Eshow[y][x+1]=='O'&&(x+1)<readfile.size&&readfile.arr[y][x+1]!='+'){
         if(method==1||method==3){
           distance=getEuclideanDistance((double)x+1,(double)readfile.initialX,(double)y,(double)readfile.initialY);
         }
@@ -256,7 +260,7 @@ void AlgoMovement::movement(int method){
       }
 
       cost[1]=distance;
-      if(Eshow[y+1][x]=='O'&&(y+1)<readfile.size){
+      if(Eshow[y+1][x]=='O'&&(y+1)<readfile.size&&readfile.arr[y+1][x]!='+'){
         if(method==1||method==3){
           distance=getEuclideanDistance((double)x,(double)readfile.initialX,(double)y+1,(double)readfile.initialY);
         }
@@ -268,7 +272,7 @@ void AlgoMovement::movement(int method){
         distance=10000;
       }
       cost[2]=distance;
-      if(Eshow[y-1][x]=='O'&&(y-1)>-1){
+      if(Eshow[y-1][x]=='O'&&(y-1)>-1&&readfile.arr[y-1][x]!='+'){
         if(method==1||method==3){
           distance=getEuclideanDistance((double)x,(double)readfile.initialX,(double)y-1,(double)readfile.initialY);
         }
@@ -279,9 +283,58 @@ void AlgoMovement::movement(int method){
       else{
         distance=10000;
       }
-
       cost[3]=distance;
       less=0;
+      if(cost[1]==10000&&cost[2]==10000&&cost[3]==10000&&cost[0]==10000){
+        if((x-1)>-1&&readfile.arr[y][x-1]!='+'){
+          if(method==1||method==3){
+            distance=getEuclideanDistance((double)x-1,(double)readfile.initialX,(double)y,(double)readfile.initialY);
+          }
+          else{
+            distance=getManhattanDistance((double)x-1,(double)readfile.initialX,(double)y,(double)readfile.initialY);
+          }
+        }
+        else{
+          distance=10000;
+        }
+        cost[0]=distance;
+        if((x+1)<readfile.size&&readfile.arr[y][x+1]!='+'){
+          if(method==1||method==3){
+            distance=getEuclideanDistance((double)x+1,(double)readfile.initialX,(double)y,(double)readfile.initialY);
+          }
+          else{
+            distance=getManhattanDistance((double)x+1,(double)readfile.initialX,(double)y,(double)readfile.initialY);
+          }
+        }
+        else{
+          distance=10000;
+        }
+        cost[1]=distance;
+        if((y+1)<readfile.size&&readfile.arr[y+1][x]!='+'){
+          if(method==1||method==3){
+            distance=getEuclideanDistance((double)x,(double)readfile.initialX,(double)y+1,(double)readfile.initialY);
+          }
+          else{
+            distance=getManhattanDistance((double)x,(double)readfile.initialX,(double)y+1,(double)readfile.initialY);
+          }
+        }
+        else{
+          distance=10000;
+        }
+        cost[2]=distance;
+        if((y-1)>-1&&readfile.arr[y-1][x]!='+'){
+          if(method==1||method==3){
+            distance=getEuclideanDistance((double)x,(double)readfile.initialX,(double)y-1,(double)readfile.initialY);
+          }
+          else{
+            distance=getManhattanDistance((double)x,(double)readfile.initialX,(double)y-1,(double)readfile.initialY);
+          }
+        }
+        else{
+          distance=10000;
+        }
+        cost[3]=distance;
+      }
       if(cost[1]<cost[less]){
         less=1;
       }
@@ -307,13 +360,15 @@ void AlgoMovement::movement(int method){
         Eshow[y][x]='.';
         y--;
       }
+
       printer[y][x]='O';
       //ends when it is back to inital location.
+
       if(getEuclideanDistance(x,readfile.initialX,y, readfile.initialY)==0){
         break;
       }
     }
-    break;
+   break;
   }
   counter++;
 }
@@ -339,7 +394,7 @@ for(int i=0; i<readfile.size;i++){
       Eshow[i][j]='.';
       printer[i][j]='.';
     }
-    cout<<printer[i][j]<<' ';
+      cout<<printer[i][j]<<' ';
   }
   cout<<endl;
 }
@@ -349,9 +404,11 @@ cout<<"Stepcount: "<<stepcount<<endl;
 
 //Algorithms
 double AlgoMovement::getEuclideanDistance(double initialX, double goalX, double initialY, double goalY){
+  //cout<<"E1"<<endl;
   return (sqrt(((initialX-goalX)*(initialX-goalX))+((initialY-goalY)*(initialY-goalY))));
 }
 double AlgoMovement::AStarEuclidean(double initialX, double goalX, double initialY, double goalY){
+
   return (sqrt(((initialX-goalX)*(initialX-goalX))+((initialY-goalY)*(initialY-goalY)))+stepcount);
 }
 double AlgoMovement::getManhattanDistance(double initialX, double goalX, double initialY, double goalY){

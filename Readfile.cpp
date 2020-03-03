@@ -10,6 +10,7 @@ Readfile::~Readfile(){
 
 }
 void Readfile::findFile(string filename){
+
   int counter=0;
   int pacer=0;
   string line;
@@ -28,11 +29,10 @@ void Readfile::findFile(string filename){
      }
      else{
      for(int i=0; i<size; i++){
-          arr[pacer][i]=line[i];
+          arr[counter-1][i]=line[i];
         }
       }
       counter++;
-      pacer=counter-1;
     }
   }
 }
